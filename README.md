@@ -22,9 +22,9 @@
 
 ## التثبيت
 
-- افتح الموقع: https://saahbii1978s.github.io/zad-alkhair/
+- افتح الموقع: https://ahla-tounsa-project.github.io/zad-alkhair/
 - يمكن تثبيت نسخة الويب من قائمة المتصفح كاختصار/تطبيق.
-- يمكن تنزيل APK Android من صفحة الإصدارات: https://github.com/Saahbii1978S/zad-alkhair/releases/tag/android-latest
+- يمكن تنزيل APK Android من صفحة الإصدارات: https://github.com/ahla-tounsa-project/zad-alkhair/releases/tag/android-latest
 - ملف AAB يُنتج ضمن artifact الخاص ببناء Android لاستعماله في مسار النشر إلى Google Play بعد استكمال متطلبات المتجر.
 
 ## حدود مهمة
@@ -43,4 +43,4 @@
 
 ## الخصوصية
 
-راجع [سياسة الخصوصية](https://saahbii1978s.github.io/zad-alkhair/privacy-policy.html). لا تُضف مفاتيح سرية أو مفاتيح service role إلى ملفات الواجهة أو المستودع العام.
+راجع [سياسة الخصوصية](https://ahla-tounsa-project.github.io/zad-alkhair/privacy-policy.html). لا تُضف مفاتيح سرية أو مفاتيح service role إلى ملفات الواجهة أو المستودع العام.
