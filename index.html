@@ -3215,7 +3215,7 @@ let initial=location.hash.slice(1);if(initial&&document.getElementById(initial))
 <script>
 /* مشاركة زاد الخير ونسخ رابطه */
 (function(){
- const appUrl='https://saahbii1978s.github.io/zad-alkhair/';
+ const appUrl='https://ahla-tounsa-project.github.io/zad-alkhair/';
  const shareButtons=['zad-share-button','zad-settings-share']
   .map(id=>document.getElementById(id)).filter(Boolean);
  const copyButtons=['zad-copy-link','zad-settings-copy']
@@ -3265,7 +3265,7 @@ let initial=location.hash.slice(1);if(initial&&document.getElementById(initial))
  dark.checked=localStorage.getItem(keys.dark)==='1';vibration.checked=localStorage.getItem(keys.vibration)==='1';apply();
  font.addEventListener('change',apply);dark.addEventListener('change',apply);vibration.addEventListener('change',apply);
  $('zad-settings-reset').addEventListener('click',()=>{font.value='medium';dark.checked=false;vibration.checked=false;apply();status.textContent='رجّعنا الإعدادات الأصلية.'});
- const appUrl='https://saahbii1978s.github.io/zad-alkhair/';
+ const appUrl='https://ahla-tounsa-project.github.io/zad-alkhair/';
  $('zad-settings-share').addEventListener('click',async()=>{try{await window.zadOpenShare({title:'زاد الخير',text:'زاد الخير — ذكرٌ يطمئنّ به القلب، وخيرٌ نرجو به رضا الله',url:appUrl})}catch(e){if(e.name!=='AbortError')status.textContent='تعذّر فتح قائمة المشاركة. جرّب مرة أخرى.'}});
  $('zad-settings-copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(appUrl);status.textContent='تم نسخ رابط زاد الخير ❤️'}catch(e){window.prompt('انسخ رابط زاد الخير:',appUrl)}});
  const add=$('add');if(add)add.addEventListener('click',()=>{if(localStorage.getItem(keys.vibration)==='1'&&navigator.vibrate)navigator.vibrate(25)});
@@ -3817,7 +3817,7 @@ header.hero .tag{
   button.disabled=true;
   button.textContent='جاري تحديد موقعك...';
   const reset=()=>{button.disabled=false;button.textContent='📍 حدّد موقعي واضبط مواقيت الصلاة تلقائياً';};
-  if(!window.isSecureContext){status.textContent='افتح زاد الخير من الرابط https://saahbii1978s.github.io/zad-alkhair/ في Chrome للسماح بتحديد الموقع.';reset();return;}
+  if(!window.isSecureContext){status.textContent='افتح زاد الخير من الرابط https://ahla-tounsa-project.github.io/zad-alkhair/ في Chrome للسماح بتحديد الموقع.';reset();return;}
   if(!navigator.geolocation){status.textContent='تحديد الموقع غير مدعوم في المتصفح. اختار المدينة يدوياً.';reset();return;}
   if(typeof window.zadLoadPrayerTimes!=='function'){status.textContent='تحميل مواقيت الصلاة مازال ما كملش. حدّث الصفحة وعاود.';reset();return;}
   navigator.geolocation.getCurrentPosition(function(pos){
