@@ -2673,6 +2673,8 @@ function checkAdhanSchedule(){if(!prayerTimes)return;const now=cityClockParts(ne
 setInterval(checkAdhanSchedule,12000);
 $('#prayer-location').onclick=()=>{if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>loadPrayerTimes(pos.coords.latitude,pos.coords.longitude),()=>{},{enableHighAccuracy:true,timeout:15000,maximumAge:60000})};
 $('#prayer-refresh').onclick=loadPrayerTimes;document.querySelector('[data-page="prayer-times"]').addEventListener('click',loadPrayerTimes);
+// تحميل مواقيت الصلاة عند فتح التطبيق حتى تظهر بطاقة الرئيسية مباشرة.
+loadPrayerTimes();
 
 /* القرآن الكريم: صفحة متصلة لكل سورة وتشغيل التلاوة كاملة بالتتابع */
 const quranSurah=$('#quran-surah'),quranReciter=$('#quran-reciter'),quranStatus=$('#quran-status'),quranVerses=$('#quran-verses'),quranAudio=$('#quran-audio');
