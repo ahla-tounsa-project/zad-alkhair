@@ -2325,7 +2325,7 @@ function setupDhikr(id){
  focus.innerHTML='<div class="dhikr-focus-top"><button type="button" class="dhikr-focus-back">رجوع ✕</button><span class="dhikr-focus-title">'+(id==='morning'?'أذكار الصباح':'أذكار المساء')+'</span><span class="dhikr-focus-step"></span></div><div class="dhikr-focus-content"></div><p class="dhikr-focus-hint">اضغط في أي مكان من الشاشة لاحتساب التكرار</p><div class="dhikr-focus-actions"><button type="button" class="dhikr-focus-prev">السابق</button><button type="button" class="dhikr-focus-next">التالي</button><button type="button" class="dhikr-focus-exit">إنهاء القراءة</button></div>';
  document.body.appendChild(focus);
  const focusContent=focus.querySelector('.dhikr-focus-content'),step=focus.querySelector('.dhikr-focus-step');
- focus.addEventListener('click',event=>{if(event.target.closest('button,a,input,select,textarea,[role=button]'))return;if(!focusMode||selectedIndex<0||selectedIndex>=items.length)return;increment(items[selectedIndex])});
+ focus.addEventListener('click',event=>{if(event.target.closest('button,a,input,select,textarea'))return;if(!focusMode||selectedIndex<0||selectedIndex>=items.length)return;increment(items[selectedIndex])});
  const closeFocus=()=>{focusMode=false;focus.hidden=true;document.body.classList.remove('dhikr-focus-open')};
  focus.querySelector('.dhikr-focus-back').onclick=closeFocus;focus.querySelector('.dhikr-focus-exit').onclick=closeFocus;
  const finish=document.createElement('div');finish.className='dhikr-finish-message';finish.textContent='ما شاء الله! أتممت أذكارك. تقبّل الله منك 🤲';finish.hidden=true;
