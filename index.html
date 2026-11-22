@@ -25,7 +25,8 @@ main{max-width:760px;padding:10px}.card{padding:13px;border-radius:13px;margin:9
 .dhikr{padding:9px 5px}.arabic{font-size:20px;line-height:1.8}.muted{font-size:12px;margin:4px 0}
 .verse{font-size:22px}.counter{font-size:42px;padding:10px}.big{width:118px;height:118px;font-size:21px}
 .actions button,.smallbtn{padding:8px 12px;font-size:13px}
-.dhikr-tap{cursor:pointer;border-radius:10px;transition:background .2s}.dhikr-tap:active{background:#edf4ed}.dhikr-tap.done{display:none}
+.dhikr-tap{cursor:pointer;border-radius:10px;transition:background .2s}
+.dhikr-order{display:inline-flex;align-self:flex-start;align-items:center;justify-content:center;margin:0 0 7px;padding:3px 10px;border-radius:999px;background:#eef4ef;color:var(--green);font:700 12px Tajawal,Arial,sans-serif;direction:rtl}.dhikr-focus-card .dhikr-order{font-size:13px;padding:5px 12px}.dhikr-tap:active{background:#edf4ed}.dhikr-tap.done{display:none}
 .dhikr-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;background:#eef4ef;padding:9px 11px;border-radius:11px;margin:8px 0 12px;color:var(--green);font-size:13px}
 .dhikr-tools button{border:0;border-radius:9px;padding:6px 10px;background:#fff;color:var(--green);font:700 12px Tajawal;cursor:pointer}
 .dhikr-progress{height:6px;background:#e7e9e2;border-radius:9px;overflow:hidden;margin:6px 0 10px}.dhikr-progress span{display:block;height:100%;width:0;background:#c5a45d;transition:width .2s}
@@ -2319,6 +2320,7 @@ function setupDhikr(id){
  try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved&&typeof saved==='object')counts=saved;else{legacyCounts=JSON.parse(localStorage.getItem('zad-'+id+'-counts-v5')||'{}')||{};counts={...legacyCounts}}}catch(e){counts={};legacyCounts=null}
  const doneEl=document.getElementById(id+'-done'),totalEl=document.getElementById(id+'-total'),bar=document.getElementById(id+'-bar'),showBtn=document.getElementById(id+'-show');
  const intro=root.querySelector('.card > .muted');
+ const totalCount=items.length;
  const tools=root.querySelector('.dhikr-tools');
  const startBtn=document.createElement('button');startBtn.type='button';startBtn.className='dhikr-start-btn';startBtn.textContent='ابدأ قراءة الأذكار';tools.appendChild(startBtn);
  const focus=document.createElement('div');focus.className='dhikr-focus';focus.hidden=true;focus.setAttribute('role','dialog');focus.setAttribute('aria-modal','true');focus.setAttribute('aria-label',id==='morning'?'قراءة أذكار الصباح':'قراءة أذكار المساء');
@@ -2361,12 +2363,13 @@ function setupDhikr(id){
   });
   try{localStorage.setItem(key,JSON.stringify(counts))}catch(e){}
  }
- totalEl.textContent=items.length;
+ totalEl.textContent=items.length;const totalLabel=root.querySelector('.dhikr-tools > span');if(totalLabel)totalLabel.setAttribute('aria-label','عدد الأذكار '+items.length+'، المكتمل '+doneEl.textContent);
  function countAt(i){return Math.max(0,Number(counts[itemKey(items[i])]||0))}
  function activeIndex(){return items.findIndex((el,i)=>countAt(i)<required[i])}
  function render(){
   let completed=0;
   items.forEach((el,i)=>{
+   let order=el.querySelector(':scope > .dhikr-order');if(!order){order=document.createElement('span');order.className='dhikr-order';el.insertBefore(order,el.firstChild)}order.textContent='الذكر رقم '+(i+1)+' من '+totalCount;
    const n=Math.min(required[i],countAt(i)),complete=n>=required[i];if(complete)completed++;
    el.style.display=showDone||i===activeIndex()?'':'none';el.style.opacity='1';el.setAttribute('aria-pressed',complete?'true':'false');
    let progress=el.querySelector('.dhikr-count-progress');if(!progress){progress=document.createElement('span');progress.className='dhikr-count-progress';el.appendChild(progress)}
