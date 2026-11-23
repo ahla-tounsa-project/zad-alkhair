@@ -2314,7 +2314,7 @@ function setupDhikr(id){
  let day=localDay(),key='zad-'+id+'-counts-v7-'+day;
  const itemKey=el=>{
   const title=el.querySelector('.muted:first-child')?.textContent?.trim()||'';
-  const text=el.querySelector('.arabic')?.textContent?.replace(/\\s+/g,' ').trim()||'';
+  const text=el.querySelector('.arabic')?.textContent?.replace(/\s+/g,' ').trim()||'';
   return title+'|'+text;
  };
  const readDailyCounts=()=>{
@@ -2373,7 +2373,7 @@ function setupDhikr(id){
   });
   doneEl.textContent=completed;bar.style.width=(items.length?completed/items.length*100:0)+'%';showBtn.textContent=showDone?'العودة للذكر الحالي':'عرض جميع الأذكار';finish.hidden=completed!==items.length||showDone;
   if(intro)intro.textContent=showDone?'قائمة الأذكار كاملة. للمتابعة بالترتيب ارجع إلى الذكر الحالي.':'ابدأ القراءة لتظهر الأذكار واحداً تلو الآخر، كل ذكر في شاشة مستقلة.';
-  startBtn.textContent=completed===items.length?'إعادة قراءة الأذكار':(focusMode?'متابعة القراءة':(completed>0?'ابدأ من الأول':'ابدأ قراءة الأذكار'));
+  startBtn.textContent=completed===items.length?'إعادة قراءة الأذكار':(focusMode?'متابعة القراءة':(completed>0?'متابعة من الذكر الحالي':'ابدأ قراءة الأذكار'));
   const current=focusMode?selectedIndex:activeIndex();
   if(focusMode){
    focus.hidden=false;document.body.classList.add('dhikr-focus-open');focusContent.innerHTML='';
