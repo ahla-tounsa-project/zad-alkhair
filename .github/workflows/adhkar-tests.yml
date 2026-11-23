@@ -1,0 +1,40 @@
+name: Zad adhkar regression tests
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "scripts/test-adhkar-progress.js"
+      - ".github/workflows/adhkar-tests.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "scripts/test-adhkar-progress.js"
+      - ".github/workflows/adhkar-tests.yml"
+permissions:
+  contents: read
+jobs:
+  adhkar-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run daily adhkar regression tests
+        run: node scripts/test-adhkar-progress.js
+      - name: Validate inline JavaScript syntax
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r'<script\\b(?![^>]*type="module")[^>]*>([\\s\\S]*?)</script>', html, re.I)
+          if not scripts:
+              raise SystemExit("No inline JavaScript found")
+          Path("/tmp/zad-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          PY
+          node --check /tmp/zad-inline.js
