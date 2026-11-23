@@ -2307,24 +2307,38 @@ body.zad-dark .zad-personal-photo-change{background:#263640;color:#d7eafa;border
 <script src="./native-notifications.js"></script>
 <script>
 (()=>{const $=s=>document.querySelector(s);let count=Number(localStorage.getItem('zad-count')||0);function show(id){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));history.replaceState(null,'','#'+id);window.scrollTo(0,0);if(id==='morning'||id==='evening')document.querySelector('#'+id+' .dhikr-start-btn')?.click()}document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>show(b.dataset.page));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));document.querySelectorAll('.home-shortcuts [data-go]').forEach(tile=>{tile.setAttribute('role','button');tile.setAttribute('tabindex','0');tile.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();show(tile.dataset.go)}})});function paint(){$('#count').textContent=count;localStorage.setItem('zad-count',count)}$('#add').onclick=()=>{count++;paint()};$('#minus').onclick=()=>{count=Math.max(0,count-1);paint()};$('#reset').onclick=()=>{count=0;paint()};const zikrNames=['سبحان الله','الحمد لله','الله أكبر','لا إله إلا الله','سبحان الله وبحمده','سبحان الله العظيم','أستغفر الله وأتوب إليه','لا حول ولا قوة إلا بالله','اللهم صل وسلم على نبينا محمد'];let ni=Math.max(0,Math.min(zikrNames.length-1,Number(localStorage.getItem('zad-zikr-index')||0)));const zikrLabel=document.getElementById('zikrLabel'),changeZikr=document.getElementById('change');if(zikrLabel)zikrLabel.textContent=zikrNames[ni];if(changeZikr){changeZikr.onclick=null;changeZikr.addEventListener('click',event=>{event.preventDefault();ni=(ni+1)%zikrNames.length;if(zikrLabel)zikrLabel.textContent=zikrNames[ni];count=0;paint();localStorage.setItem('zad-zikr-index',String(ni));changeZikr.setAttribute('aria-label','الذكر الحالي: '+zikrNames[ni]);});};document.querySelectorAll('[data-task]').forEach(c=>{c.checked=localStorage.getItem('zad-task-'+c.dataset.task)==='1';c.onchange=()=>localStorage.setItem('zad-task-'+c.dataset.task,c.checked?'1':'0')});
+function createDailyDhikrProgress(id,storage,now=()=>new Date()){
+ const localDay=()=>{const d=now();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+ let day=localDay(),key='zad-'+id+'-counts-v7-'+day;
+ const read=()=>{
+  try{const saved=JSON.parse(storage.getItem(key)||'null');return saved&&typeof saved==='object'&&!Array.isArray(saved)?saved:{}}catch(e){return {}}
+ };
+ let counts=read();
+ function ensureCurrentDay(){
+  const today=localDay();if(today===day)return false;
+  day=today;key='zad-'+id+'-counts-v7-'+day;counts=read();return true;
+ }
+ function get(itemKey){ensureCurrentDay();return Math.max(0,Number(counts[itemKey]||0))}
+ function set(itemKey,value,maximum){
+  ensureCurrentDay();counts[itemKey]=Math.min(maximum,Math.max(0,Number(value)||0));
+  storage.setItem(key,JSON.stringify(counts));
+ }
+ function reset(){ensureCurrentDay();counts={};storage.removeItem(key)}
+ return {ensureCurrentDay,get,set,reset,getStorageKey:()=>key,getAll:()=>({...counts})};
+}
 function setupDhikr(id){
  const root=document.getElementById(id),items=[...root.querySelectorAll('.dhikr-tap')];
- // Keep each day's progress separate, using the device's local calendar date.
- const localDay=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
- let day=localDay(),key='zad-'+id+'-counts-v7-'+day;
+ const progress=createDailyDhikrProgress(id,localStorage);
  const itemKey=el=>{
   const title=el.querySelector('.muted:first-child')?.textContent?.trim()||'';
   const text=el.querySelector('.arabic')?.textContent?.replace(/\s+/g,' ').trim()||'';
   return title+'|'+text;
  };
- const readDailyCounts=()=>{
-  try{const saved=JSON.parse(localStorage.getItem(key)||'null');return saved&&typeof saved==='object'&&!Array.isArray(saved)?saved:{}}catch(e){return {}}
- };
- let counts=readDailyCounts(),showDone=false,focusMode=false,selectedIndex=0;
+ let showDone=false,focusMode=false,selectedIndex=0;
  function ensureCurrentDay(){
-  const today=localDay();if(today===day)return false;
-  day=today;key='zad-'+id+'-counts-v7-'+day;counts=readDailyCounts();
-  showDone=false;selectedIndex=0;return true;
+  const changed=progress.ensureCurrentDay();
+  if(changed){showDone=false;selectedIndex=0}
+  return changed;
  }
  const doneEl=document.getElementById(id+'-done'),totalEl=document.getElementById(id+'-total'),bar=document.getElementById(id+'-bar'),showBtn=document.getElementById(id+'-show');
  const intro=root.querySelector('.card > .muted');
@@ -2358,7 +2372,7 @@ function setupDhikr(id){
   return Object.prototype.hasOwnProperty.call(exactRequired,title)?exactRequired[title]:1;
  });
  totalEl.textContent=items.length;const totalLabel=root.querySelector('.dhikr-tools > span');if(totalLabel)totalLabel.setAttribute('aria-label','عدد الأذكار '+items.length+'، المكتمل '+doneEl.textContent);
- function countAt(i){ensureCurrentDay();return Math.max(0,Number(counts[itemKey(items[i])]||0))}
+ function countAt(i){return progress.get(itemKey(items[i]))}
  function activeIndex(){return items.findIndex((el,i)=>countAt(i)<required[i])}
  function render(){
   ensureCurrentDay();
@@ -2411,14 +2425,14 @@ function setupDhikr(id){
   const i=items.indexOf(el);if(i<0)return;showDone=false;const k=itemKey(el);
   if(countAt(i)>=required[i]){if(focusMode){const next=activeIndex();selectedIndex=next<0?items.length:next;render()}return}
   try{if('vibrate' in navigator)navigator.vibrate(25)}catch(e){}
-  counts[k]=Math.min(required[i],countAt(i)+1);localStorage.setItem(key,JSON.stringify(counts));
+  progress.set(k,countAt(i)+1,required[i]);
   if(countAt(i)>=required[i]){const next=activeIndex();selectedIndex=next<0?items.length:next}
   render();
  }
  items.forEach(el=>{el.addEventListener('click',()=>increment(el));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();increment(el)}})});
- startBtn.onclick=()=>{ensureCurrentDay();showDone=false;const next=activeIndex();if(next<0){counts={};localStorage.removeItem(key);selectedIndex=0}else{selectedIndex=next}focusMode=true;render()};
+ startBtn.onclick=()=>{ensureCurrentDay();showDone=false;const next=activeIndex();if(next<0){progress.reset();selectedIndex=0}else{selectedIndex=next}focusMode=true;render()};
  showBtn.onclick=()=>{showDone=!showDone;render()};
- document.getElementById(id+'-reset').onclick=()=>{ensureCurrentDay();counts={};localStorage.removeItem(key);showDone=false;selectedIndex=0;render()};
+ document.getElementById(id+'-reset').onclick=()=>{progress.reset();showDone=false;selectedIndex=0;render()};
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ensureCurrentDay())render()});
  window.setInterval(()=>{if(ensureCurrentDay())render()},60000);
  render();
