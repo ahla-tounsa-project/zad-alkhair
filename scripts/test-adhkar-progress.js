@@ -14,11 +14,11 @@ const createDailyDhikrProgress = vm.runInNewContext(
 );
 
 const titleStart = html.indexOf('function getDhikrTitle(');
-const titleEnd = html.indexOf('\\nfunction setupDhikr(', titleStart);
+const titleEnd = html.indexOf('\nfunction setupDhikr(', titleStart);
 assert.notEqual(titleStart, -1, 'stable dhikr title helper exists');
 assert.notEqual(titleEnd, -1, 'stable dhikr title helper ends before setupDhikr');
 const getDhikrTitle = vm.runInNewContext(
-  html.slice(titleStart, titleEnd) + '\\ngetDhikrTitle',
+  html.slice(titleStart, titleEnd) + '\ngetDhikrTitle',
   { String }
 );
 const titleAfterBadge = getDhikrTitle({
