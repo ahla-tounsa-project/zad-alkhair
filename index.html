@@ -2255,7 +2255,7 @@ body.zad-dark .zad-personal-photo-change{background:#263640;color:#d7eafa;border
  
   <div class="setting-row"><div><strong>السماح بالإشعارات 🔔</strong><p class="muted">اضغط لطلب إذن الإشعارات وضبط تنبيهات الصلاة.</p></div><button class="smallbtn" type="button" id="adhan-permission">السماح بالإشعارات</button></div>
  </div>
- <div class="card adhan-card"><h2>🔔 إعدادات الأذان والتنبيهات</h2><p class="muted">اختار الصلوات اللي تحب تسمع فيها الأذان أو يوصلك تنبيه.</p><div class="adhan-options"><label><input type="checkbox" data-adhan-prayer="Fajr" checked> الفجر</label><label><input type="checkbox" data-adhan-prayer="Dhuhr" checked> الظهر</label><label><input type="checkbox" data-adhan-prayer="Asr" checked> العصر</label><label><input type="checkbox" data-adhan-prayer="Maghrib" checked> المغرب</label><label><input type="checkbox" data-adhan-prayer="Isha" checked> العشاء</label></div><label class="adhan-mode-label" for="adhan-mode">نوع التنبيه عند دخول وقت الصلاة</label><select id="adhan-mode" class="adhan-mode"><option value="audio">الأذان الكامل في الخلفية (أندرويد)</option><option value="notice">إشعار فقط بدون صوت</option></select><label class="adhan-mode-label" for="adhan-before">تنبيه قبل الصلاة</label><select id="adhan-before" class="adhan-mode"><option value="0">بدون تنبيه مسبق</option><option value="5">قبل الصلاة بـ 5 دقائق</option><option value="10" selected>قبل الصلاة بـ 10 دقائق</option><option value="15">قبل الصلاة بـ 15 دقيقة</option><option value="30">قبل الصلاة بـ 30 دقيقة</option></select><label class="adhan-mode-label" for="adhan-before-style">طريقة التنبيه قبل الصلاة</label><select id="adhan-before-style" class="adhan-mode"><option value="sound">إشعار بصوت الهاتف</option><option value="vibrate">اهتزاز مع الإشعار</option><option value="silent">إشعار صامت</option><option value="both" selected>صوت واهتزاز</option></select><p class="muted">قبل الصلاة يوصلك اسم الصلاة مع تذكير بالتسبيح: «سبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر».</p><label class="adhan-mode-label" for="adhan-sound">اختار صوت المؤذّن للأذان الكامل</label><select id="adhan-sound" class="adhan-mode"><option value="syria">صباح فخري — سوريا</option><option value="mecca">الحرم المكي — مكة</option><option value="madinah">أذان المدينة المنورة</option><option value="tunisia">أذان كامل بديل — صباح فخري</option><option value="morocco">مسجد الحسن الثاني — المغرب</option><option value="default">أذان جميل — تسجيل عام</option><option value="general2">نداء للصلاة — تسجيل عام آخر</option><option value="doha">أذان الدوحة — قطر (صوت مختلف لكل صلاة)</option></select><p class="muted">تنجم تسمع معاينة للصوت قبل ما تختارو. اختيارك يتحفظ على تلفونك.</p><div class="adhan-preview-list"><button type="button" class="smallbtn" id="adhan-preview">▶️ معاينة صوت المؤذّن المختار</button></div><div class="actions adhan-actions"><button type="button" id="adhan-test">تجربة صوت الأذان</button></div><p id="adhan-status" class="muted" role="status">فعّل الإشعارات والمنبّهات الدقيقة. التنبيه المسبق إشعار قبل الصلاة، والأذان الكامل يعمل في الخلفية في نسخة أندرويد.</p><p class="muted">ملاحظة: يلزم السماح بإشعارات زاد الخير والمنبّهات الدقيقة، وعدم تقييد البطارية حتى تعمل التنبيهات في أوقاتها. في نسخة المتصفح، يلزم بقاء الصفحة مفتوحة للتنبيهات الصوتية.</p><details class="muted"><summary>مصادر تسجيلات الأذان</summary><p><a href="https://commons.wikimedia.org/wiki/File:Call_to_prayer_by_Sabah_Fakhry.mp3" target="_blank" rel="noopener">صباح فخري</a> · <a href="https://commons.wikimedia.org/wiki/File:Adhan,_Great_Mosque_of_Mecca_-_Jan_21,_2013.webm" target="_blank" rel="noopener">الحرم المكي</a> · <a href="https://commons.wikimedia.org/wiki/File:33937_ejaz215_call-to-prayer-from-the-prophet-s-mo.ogg" target="_blank" rel="noopener">المدينة المنورة</a> · <a href="https://commons.wikimedia.org/wiki/File:Llamada_a_oraci%C3%B3n_Mezquita_Hassan_II.wav" target="_blank" rel="noopener">المغرب</a> · <a href="https://archive.org/details/adhan.recordings.from.doha.qatar" target="_blank" rel="noopener">تسجيلات أذان الدوحة — Public Domain Mark 1.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Oraci%C3%B3n_Al-Azzan.ogg" target="_blank" rel="noopener">تسجيل آخر</a></p></details><audio id="adhan-audio" preload="none"></audio></div>
+ <div class="card adhan-card"><h2>🔔 إعدادات الأذان والتنبيهات</h2><p class="muted">اختار الصلوات اللي تحب تسمع فيها الأذان أو يوصلك تنبيه.</p><div class="adhan-options"><label><input type="checkbox" data-adhan-prayer="Fajr" checked> الفجر</label><label><input type="checkbox" data-adhan-prayer="Dhuhr" checked> الظهر</label><label><input type="checkbox" data-adhan-prayer="Asr" checked> العصر</label><label><input type="checkbox" data-adhan-prayer="Maghrib" checked> المغرب</label><label><input type="checkbox" data-adhan-prayer="Isha" checked> العشاء</label></div><label class="adhan-mode-label" for="adhan-mode">نوع التنبيه عند دخول وقت الصلاة</label><select id="adhan-mode" class="adhan-mode"><option value="audio">الأذان الكامل في الخلفية (أندرويد)</option><option value="notice">إشعار فقط بدون صوت</option></select><label class="adhan-mode-label" for="adhan-before">تنبيه قبل الصلاة</label><select id="adhan-before" class="adhan-mode"><option value="0">بدون تنبيه مسبق</option><option value="5">قبل الصلاة بـ 5 دقائق</option><option value="10" selected>قبل الصلاة بـ 10 دقائق</option><option value="15">قبل الصلاة بـ 15 دقيقة</option><option value="30">قبل الصلاة بـ 30 دقيقة</option></select><label class="adhan-mode-label" for="adhan-reminder">الذكر أو التذكير الإسلامي اللي يظهر في التنبيه</label><select id="adhan-reminder" class="adhan-mode"><option value="tasbeeh">تسبيح: سبحان الله والحمد لله ولا إله إلا الله والله أكبر</option><option value="salawat">الصلاة على النبي ﷺ</option><option value="istighfar">الاستغفار: أستغفر الله وأتوب إليه</option><option value="tahlil">لا إله إلا الله</option><option value="dua">دعاء: اللهم أعنّي على ذكرك وشكرك وحسن عبادتك</option><option value="custom">ذكر أو دعاء أكتبه بنفسي</option></select><label class="adhan-mode-label" for="adhan-custom-reminder" id="adhan-custom-label" hidden>اكتب الذكر أو الدعاء الذي تختاره</label><input id="adhan-custom-reminder" class="adhan-mode" type="text" maxlength="120" placeholder="اكتب تذكيرك هنا..." hidden><label class="adhan-mode-label" for="adhan-before-style">طريقة التنبيه قبل الصلاة</label><select id="adhan-before-style" class="adhan-mode"><option value="sound">إشعار بصوت الهاتف</option><option value="vibrate">اهتزاز مع الإشعار</option><option value="silent">إشعار صامت</option><option value="both" selected>صوت واهتزاز</option></select><p class="muted">اختار الذكر أو الدعاء اللي تحب يظهر مع اسم الصلاة في التنبيه. تنجم تختار تذكيراً جاهزاً أو تكتب تذكيرك بنفسك.</p><label class="adhan-mode-label" for="adhan-sound">اختار صوت المؤذّن للأذان الكامل</label><select id="adhan-sound" class="adhan-mode"><option value="syria">صباح فخري — سوريا</option><option value="mecca">الحرم المكي — مكة</option><option value="madinah">أذان المدينة المنورة</option><option value="tunisia">أذان كامل بديل — صباح فخري</option><option value="morocco">مسجد الحسن الثاني — المغرب</option><option value="default">أذان جميل — تسجيل عام</option><option value="general2">نداء للصلاة — تسجيل عام آخر</option><option value="doha">أذان الدوحة — قطر (صوت مختلف لكل صلاة)</option></select><p class="muted">تنجم تسمع معاينة للصوت قبل ما تختارو. اختيارك يتحفظ على تلفونك.</p><div class="adhan-preview-list"><button type="button" class="smallbtn" id="adhan-preview">▶️ معاينة صوت المؤذّن المختار</button></div><div class="actions adhan-actions"><button type="button" id="adhan-test">تجربة صوت الأذان</button></div><p id="adhan-status" class="muted" role="status">فعّل الإشعارات والمنبّهات الدقيقة. التنبيه المسبق إشعار قبل الصلاة، والأذان الكامل يعمل في الخلفية في نسخة أندرويد.</p><p class="muted">ملاحظة: يلزم السماح بإشعارات زاد الخير والمنبّهات الدقيقة، وعدم تقييد البطارية حتى تعمل التنبيهات في أوقاتها. في نسخة المتصفح، يلزم بقاء الصفحة مفتوحة للتنبيهات الصوتية.</p><details class="muted"><summary>مصادر تسجيلات الأذان</summary><p><a href="https://commons.wikimedia.org/wiki/File:Call_to_prayer_by_Sabah_Fakhry.mp3" target="_blank" rel="noopener">صباح فخري</a> · <a href="https://commons.wikimedia.org/wiki/File:Adhan,_Great_Mosque_of_Mecca_-_Jan_21,_2013.webm" target="_blank" rel="noopener">الحرم المكي</a> · <a href="https://commons.wikimedia.org/wiki/File:33937_ejaz215_call-to-prayer-from-the-prophet-s-mo.ogg" target="_blank" rel="noopener">المدينة المنورة</a> · <a href="https://commons.wikimedia.org/wiki/File:Llamada_a_oraci%C3%B3n_Mezquita_Hassan_II.wav" target="_blank" rel="noopener">المغرب</a> · <a href="https://archive.org/details/adhan.recordings.from.doha.qatar" target="_blank" rel="noopener">تسجيلات أذان الدوحة — Public Domain Mark 1.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Oraci%C3%B3n_Al-Azzan.ogg" target="_blank" rel="noopener">تسجيل آخر</a></p></details><audio id="adhan-audio" preload="none"></audio></div>
  <div class="card"><h2>عن زاد الخير</h2><p>ذكرٌ يطمئنّ به القلب، وخيرٌ نرجو به رضا الله.</p><p class="muted">نسأل الله أن ينفع به ويتقبّل من كل من ساهم فيه.</p><p class="muted" style="font-size:11px">مصدر صور الأماكن المقدسة: الكعبة — GusJuned (CC BY-SA 3.0)؛ المسجد النبوي — Wadie Al-Houh (CC0)؛ المسجد الأقصى — Nikeman916 (ملكية عامة).</p><p class="muted" style="font-size:11px"><a href="https://commons.wikimedia.org/wiki/File:Kaaba,_Masjid_Al-Haram,_Mecca,_Saudi_Arabia_-_panoramio.jpg" target="_blank" rel="noopener">ترخيص صورة الكعبة</a> · <a href="https://commons.wikimedia.org/wiki/File:Green_Dome,_Masjid_Al_Nabawi.jpg" target="_blank" rel="noopener">صورة المسجد النبوي</a> · <a href="https://commons.wikimedia.org/wiki/File:Al_Aqsa.jpg" target="_blank" rel="noopener">صورة المسجد الأقصى</a></p></div>
 </section>
 <section class="view" id="parents">
@@ -2460,10 +2460,10 @@ let prayerTimes=null,prayerTicker=null,prayerTimezone='Africa/Tunis',prayerReque
 function fillCountries(){const o=Object.entries(countries).map(([k,v])=>'<option value="'+k+'">'+v[0]+'</option>').join('');countrySel.innerHTML=o;homeCountry.innerHTML=o}
 function fillCities(country,city){const list=countries[country][1],o=list.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('');citySel.innerHTML=o;homeCity.innerHTML=o;const value=list.some(x=>x[0]===city)?city:list[0][0];citySel.value=value;homeCity.value=value}
 fillCountries();let savedCountry=localStorage.getItem('zad-prayer-country')||'Tunisia',savedCity=localStorage.getItem('zad-prayer-city')||'Sfax';if(!countries[savedCountry])savedCountry='Tunisia';countrySel.value=savedCountry;homeCountry.value=savedCountry;fillCities(savedCountry,savedCity);
-countrySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');homeCountry.value=countrySel.value;fillCities(countrySel.value,'');loadPrayerTimes()};
-homeCountry.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');countrySel.value=homeCountry.value;fillCities(homeCountry.value,'');loadPrayerTimes()};
-citySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');homeCity.value=citySel.value;loadPrayerTimes()};
-homeCity.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');citySel.value=homeCity.value;loadPrayerTimes()};
+countrySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');homeCountry.value=countrySel.value;fillCities(countrySel.value,'');loadPrayerTimes()};
+homeCountry.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');countrySel.value=homeCountry.value;fillCities(homeCountry.value,'');loadPrayerTimes()};
+citySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');homeCity.value=citySel.value;loadPrayerTimes()};
+homeCity.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');citySel.value=homeCity.value;loadPrayerTimes()};
 window.zadLoadPrayerTimes=(...args)=>loadPrayerTimes(...args);
 async function reversePrayerLocation(latitude,longitude){
  try{
@@ -2474,13 +2474,70 @@ async function reversePrayerLocation(latitude,longitude){
   return parts.join('، ');
  }catch(e){return ''}
 }
+
+function prayerTodayISO(){
+ const p=cityClockParts(new Date());
+ return p.year+'-'+String(p.month).padStart(2,'0')+'-'+String(p.day).padStart(2,'0');
+}
+function prayerCacheKey(day,byLocation,latitude,longitude,city,country){
+ const place=byLocation&&Number.isFinite(latitude)&&Number.isFinite(longitude)
+  ?'gps-'+Number(latitude).toFixed(3)+'-'+Number(longitude).toFixed(3)
+  :'city-'+country+'-'+city;
+ return 'zad-prayer-cache-v1-'+place+'-'+day;
+}
+function readPrayerCache(key){
+ try{const item=JSON.parse(localStorage.getItem(key)||'null');return item&&item.data?.timings?item:null}catch(e){return null}
+}
+function savePrayerCache(key,data,locationLabel,byLocation,latitude,longitude){
+ try{localStorage.setItem(key,JSON.stringify({date:data?.date?.gregorian?.date||'',data,locationLabel,byLocation,latitude,longitude,savedAt:Date.now()}));return true}catch(e){console.warn('تعذّر حفظ مواقيت الصلاة محلياً',e);return false}
+}
+function renderPrayerTimesData(data,options={}){
+ prayerTimes=data.timings;
+ prayerTimezone=data.meta?.timezone||'Africa/Tunis';
+ prayerCoordinates=options.byLocation?{latitude:options.latitude,longitude:options.longitude}:null;
+ scheduleNativePrayerAlerts();
+ const locationLabel=options.locationLabel||citySel.options[citySel.selectedIndex].text+'، '+countries[countrySel.value][0];
+ const dateLabel=locationLabel+' • '+(data.date?.readable||'')+' • '+(data.date?.hijri?.date||'')+' هـ'+(options.cached?' • محفوظة لهذا اليوم':'');
+ $('#prayer-date').textContent=dateLabel;$('#home-prayer-date').textContent=dateLabel;
+ const keys=['Fajr','Dhuhr','Asr','Maghrib','Isha'],cleanTime=k=>String(prayerTimes[k]||'—').split(' ')[0];
+ const prayerIcons={Fajr:'🌅',Dhuhr:'☀️',Asr:'🌤️',Maghrib:'🌇',Isha:'🌙'};
+ $('#prayer-list').innerHTML=keys.map(k=>'<div class="prayer-item" data-prayer-key="'+k+'"><span class="prayer-item-name"><span class="prayer-icon" aria-hidden="true">'+prayerIcons[k]+'</span>'+prayerNames[k]+'</span><b>'+cleanTime(k)+'</b></div>').join('');
+ const homeKeys=[['Fajr','الفجر','🌅'],['Sunrise','الشروق','🌄'],['Dhuhr','الظهر','☀️'],['Asr','العصر','🌤️'],['Maghrib','المغرب','🌇'],['Isha','العشاء','🌙']];
+ $('#home-prayer-list').innerHTML=homeKeys.map(([k,label,icon])=>'<div class="home-prayer-time-item" data-prayer-key="'+k+'"><span class="prayer-icon" aria-hidden="true">'+icon+'</span><span class="home-prayer-time-name">'+label+'</span><b class="home-prayer-time-value">'+cleanTime(k)+'</b></div>').join('');
+ tickPrayer();if(prayerTicker)clearInterval(prayerTicker);prayerTicker=setInterval(tickPrayer,1000);
+}
+async function cacheTomorrowPrayerTimes(options){
+ const p=cityClockParts(new Date()),tomorrow=new Date(Date.UTC(p.year,p.month-1,p.day+1));
+ const iso=tomorrow.getUTCFullYear()+'-'+String(tomorrow.getUTCMonth()+1).padStart(2,'0')+'-'+String(tomorrow.getUTCDate()).padStart(2,'0');
+ const apiDate=String(tomorrow.getUTCDate()).padStart(2,'0')+'-'+String(tomorrow.getUTCMonth()+1).padStart(2,'0')+'-'+tomorrow.getUTCFullYear();
+ const url=options.byLocation
+  ?'https://api.aladhan.com/v1/timings/'+apiDate+'?latitude='+encodeURIComponent(options.latitude)+'&longitude='+encodeURIComponent(options.longitude)+'&method=18'
+  :'https://api.aladhan.com/v1/timingsByCity/'+apiDate+'?city='+encodeURIComponent(options.city)+'&country='+encodeURIComponent(options.country)+'&method=18';
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),9000);
+ try{
+  const response=await fetch(url,{cache:'no-store',signal:controller.signal});
+  if(!response.ok)return;
+  const json=await response.json();
+  if(json.code!==200||!json.data?.timings)return;
+  savePrayerCache(prayerCacheKey(iso,options.byLocation,options.latitude,options.longitude,options.city,options.country),json.data,options.locationLabel,options.byLocation,options.latitude,options.longitude);
+ }catch(error){console.warn('تعذّر تجهيز مواقيت الغد للعمل دون إنترنت',error)}
+ finally{clearTimeout(timer)}
+}
+
 async function loadPrayerTimes(latitude=null,longitude=null,accuracy=null){
  const requestId=++prayerRequestId,city=citySel.value,country=countrySel.value;
  let byLocation=Number.isFinite(latitude)&&Number.isFinite(longitude);
  if(!byLocation){localStorage.setItem('zad-prayer-city',city);localStorage.setItem('zad-prayer-country',country);}
- const loading='جاري تحميل مواقيت الصلاة...';
- $('#prayer-date').textContent=loading;$('#home-prayer-date').textContent=loading;
- $('#home-prayer-list').innerHTML='<div style="grid-column:1/-1;text-align:center;color:#fff;padding:8px">جاري جلب المواقيت...</div>';
+ const today=prayerTodayISO(),cacheKey=prayerCacheKey(today,byLocation,latitude,longitude,city,country);
+ const cached=readPrayerCache(cacheKey);
+ const hasCached=cached&&cached.data?.timings;
+ if(hasCached){
+  renderPrayerTimesData(cached.data,{cached:true,byLocation:cached.byLocation,latitude:cached.latitude,longitude:cached.longitude,locationLabel:cached.locationLabel});
+ }else{
+  const loading='جاري تحميل مواقيت الصلاة...';
+  $('#prayer-date').textContent=loading;$('#home-prayer-date').textContent=loading;
+  $('#home-prayer-list').innerHTML='<div style="grid-column:1/-1;text-align:center;color:#fff;padding:8px">جاري جلب المواقيت...</div>';
+ }
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),18000);
  try{
   const cityUrl='https://api.aladhan.com/v1/timingsByCity?city='+encodeURIComponent(city)+'&country='+encodeURIComponent(country)+'&method=18';
@@ -2502,10 +2559,6 @@ async function loadPrayerTimes(latitude=null,longitude=null,accuracy=null){
    if(status)status.textContent='تم تحديد موقعك، لكن خدمة المواقيت حسب الإحداثيات لم تستجب. عرضنا مواقيت '+citySel.options[citySel.selectedIndex].text+' مؤقتاً.';
   }
   if(requestId!==prayerRequestId)return;
-  prayerTimes=json.data.timings;
-  prayerTimezone=json.data.meta?.timezone||'Africa/Tunis';
-  prayerCoordinates=byLocation?{latitude,longitude}:null;
-  scheduleNativePrayerAlerts();
   let locationLabel=citySel.options[citySel.selectedIndex].text+'، '+countries[country][0];
   if(byLocation){
    const place=await reversePrayerLocation(latitude,longitude);
@@ -2513,21 +2566,22 @@ async function loadPrayerTimes(latitude=null,longitude=null,accuracy=null){
    locationLabel=place||('إحداثيات GPS: '+latitude.toFixed(4)+', '+longitude.toFixed(4));
    const accuracyText=Number.isFinite(accuracy)?' • دقّة GPS حوالي '+Math.round(accuracy)+' م':'';
    const status=document.getElementById('zad-location-status');
-   if(status)status.textContent='📍 لقاك GPS في: '+locationLabel+accuracyText+' • مواقيت الصلاة حسب التوقيت المحلي للمنطقة ('+prayerTimezone+').';
+   if(status)status.textContent='📍 لقاك GPS في: '+locationLabel+accuracyText+' • مواقيت الصلاة حسب التوقيت المحلي للمنطقة ('+(json.data.meta?.timezone||'Africa/Tunis')+').';
   }else{
    const status=document.getElementById('zad-location-status');
    if(status&&localStorage.getItem('zad-prayer-location-mode')!=='auto')status.textContent='';
   }
-  const dateLabel=locationLabel+' • '+json.data.date.readable+' • '+json.data.date.hijri.date+' هـ';
-  $('#prayer-date').textContent=dateLabel;$('#home-prayer-date').textContent=dateLabel;
-  const keys=['Fajr','Dhuhr','Asr','Maghrib','Isha'],cleanTime=k=>String(prayerTimes[k]||'—').split(' ')[0];
-  const prayerIcons={Fajr:'🌅',Dhuhr:'☀️',Asr:'🌤️',Maghrib:'🌇',Isha:'🌙'};
-  $('#prayer-list').innerHTML=keys.map(k=>'<div class="prayer-item" data-prayer-key="'+k+'"><span class="prayer-item-name"><span class="prayer-icon" aria-hidden="true">'+prayerIcons[k]+'</span>'+prayerNames[k]+'</span><b>'+cleanTime(k)+'</b></div>').join('');
-  const homeKeys=[['Fajr','الفجر','🌅'],['Sunrise','الشروق','🌄'],['Dhuhr','الظهر','☀️'],['Asr','العصر','🌤️'],['Maghrib','المغرب','🌇'],['Isha','العشاء','🌙']];
-  $('#home-prayer-list').innerHTML=homeKeys.map(([k,label,icon])=>'<div class="home-prayer-time-item" data-prayer-key="'+k+'"><span class="prayer-icon" aria-hidden="true">'+icon+'</span><span class="home-prayer-time-name">'+label+'</span><b class="home-prayer-time-value">'+cleanTime(k)+'</b></div>').join('');
-  tickPrayer();if(prayerTicker)clearInterval(prayerTicker);prayerTicker=setInterval(tickPrayer,1000);
+  renderPrayerTimesData(json.data,{byLocation,latitude,longitude,locationLabel});
+  const actualDay=String(json.data.date?.gregorian?.date||'').split('-').reverse().join('-')||today;
+  savePrayerCache(prayerCacheKey(actualDay,byLocation,latitude,longitude,city,country),json.data,locationLabel,byLocation,latitude,longitude);
+  cacheTomorrowPrayerTimes({byLocation,latitude,longitude,city,country,locationLabel}).catch(()=>{});
  }catch(e){
   if(requestId!==prayerRequestId)return;
+  if(hasCached){
+   const status=document.getElementById('zad-location-status');
+   if(status)status.textContent='تعذّر الاتصال بالإنترنت؛ نعرض مواقيت اليوم المحفوظة على الهاتف.';
+   return;
+  }
   prayerTimes=null;
   const msg=e.name==='AbortError'?'تأخّر الاتصال بخدمة المواقيت. أعد المحاولة بعد قليل.':'تعذّر تحميل المواقيت. تثبّت من الإنترنت واضغط «إعادة المحاولة».';
   $('#prayer-date').textContent=msg;$('#home-prayer-date').textContent=msg;
@@ -2592,6 +2646,12 @@ adhanMode.value=adhanPrefs.mode||'audio';
 adhanSound.value=adhanPrefs.sound||'syria';
 adhanBefore.value=String(adhanPrefs.beforeMinutes??10);
 adhanBeforeStyle.value=adhanPrefs.beforeStyle||'both';
+const adhanReminder=document.getElementById('adhan-reminder'),adhanCustomReminder=document.getElementById('adhan-custom-reminder'),adhanCustomLabel=document.getElementById('adhan-custom-label');
+adhanReminder.value=adhanPrefs.reminder||'tasbeeh';adhanCustomReminder.value=adhanPrefs.customReminder||'';
+function syncCustomReminder(){const show=adhanReminder.value==='custom';adhanCustomReminder.hidden=!show;adhanCustomLabel.hidden=!show;}
+syncCustomReminder();
+adhanReminder.onchange=()=>{syncCustomReminder();saveAdhanPrefs();scheduleNativePrayerAlerts()};
+adhanCustomReminder.onchange=()=>{saveAdhanPrefs();scheduleNativePrayerAlerts()};
 adhanAudio.src=adhanSounds[adhanSound.value];
 let adhanPreviewing=false;
 function stopAdhanPreview(){if(adhanPreviewing){adhanAudio.pause();adhanAudio.currentTime=0;adhanPreviewing=false;}}
@@ -2601,7 +2661,7 @@ adhanSound.onchange=()=>{stopAdhanPreview();adhanAudio.src=adhanSounds[adhanSoun
 adhanBefore.onchange=()=>{saveAdhanPrefs();scheduleNativePrayerAlerts();};
 adhanBeforeStyle.onchange=()=>{saveAdhanPrefs();scheduleNativePrayerAlerts();};
 document.querySelectorAll('[data-adhan-prayer]').forEach(el=>{el.checked=adhanEnabled[el.dataset.adhanPrayer];el.onchange=()=>{adhanEnabled[el.dataset.adhanPrayer]=el.checked;saveAdhanPrefs();scheduleNativePrayerAlerts()}});
-function saveAdhanPrefs(){localStorage.setItem('zad-adhan-prefs',JSON.stringify({enabled:adhanEnabled,mode:adhanMode.value,sound:adhanSound.value,beforeMinutes:Number(adhanBefore.value),beforeStyle:adhanBeforeStyle.value}))}
+function saveAdhanPrefs(){localStorage.setItem('zad-adhan-prefs',JSON.stringify({enabled:adhanEnabled,mode:adhanMode.value,sound:adhanSound.value,beforeMinutes:Number(adhanBefore.value),beforeStyle:adhanBeforeStyle.value,reminder:adhanReminder.value,customReminder:adhanCustomReminder.value.trim()}))}
 adhanMode.onchange=()=>{saveAdhanPrefs();scheduleNativePrayerAlerts()};
 function adhanMessage(t){adhanStatus.textContent=t}
 async function scheduleNativePrayerAlerts(){
@@ -2644,19 +2704,27 @@ async function scheduleNativePrayerAlerts(){
   }
   if(!Local){adhanMessage('تم ضبط الأذان الكامل، لكن إشعارات ما قبل الصلاة غير متاحة على هذا الجهاز.');return;}
   const now=new Date(),nowParts=cityClockParts(now),alerts=[],lead=Number(adhanBefore.value);
-  let tomorrowTimings=null;
+  const reminderTexts={tasbeeh:'سبحان الله والحمد لله ولا إله إلا الله والله أكبر',salawat:'اللهم صل وسلم على نبينا محمد',istighfar:'أستغفر الله وأتوب إليه',tahlil:'لا إله إلا الله',dua:'اللهم أعنّي على ذكرك وشكرك وحسن عبادتك'};
+  const reminderText=adhanReminder.value==='custom'?(adhanCustomReminder.value.trim()||reminderTexts.tasbeeh):(reminderTexts[adhanReminder.value]||reminderTexts.tasbeeh);
+  const nextDay=new Date(Date.UTC(nowParts.year,nowParts.month-1,nowParts.day+1));
+  const datePath=String(nextDay.getUTCDate()).padStart(2,'0')+'-'+String(nextDay.getUTCMonth()+1).padStart(2,'0')+'-'+nextDay.getUTCFullYear();
+  const tomorrowISO=nextDay.getUTCFullYear()+'-'+String(nextDay.getUTCMonth()+1).padStart(2,'0')+'-'+String(nextDay.getUTCDate()).padStart(2,'0');
+  const tomorrowKey=prayerCacheKey(tomorrowISO,!!prayerCoordinates,prayerCoordinates?.latitude,prayerCoordinates?.longitude,citySel.value,countrySel.value);
+  const cachedTomorrow=readPrayerCache(tomorrowKey);
+  let tomorrowTimings=cachedTomorrow?.data?.timings||null;
   try{
-   const nextDay=new Date(Date.UTC(nowParts.year,nowParts.month-1,nowParts.day+1));
-   const datePath=String(nextDay.getUTCDate()).padStart(2,'0')+'-'+String(nextDay.getUTCMonth()+1).padStart(2,'0')+'-'+nextDay.getUTCFullYear();
    const tomorrowUrl=prayerCoordinates
     ?'https://api.aladhan.com/v1/timings/'+datePath+'?latitude='+encodeURIComponent(prayerCoordinates.latitude)+'&longitude='+encodeURIComponent(prayerCoordinates.longitude)+'&method=18&timezonestring='+encodeURIComponent(prayerTimezone)
     :'https://api.aladhan.com/v1/timingsByCity/'+datePath+'?city='+encodeURIComponent(citySel.value)+'&country='+encodeURIComponent(countrySel.value)+'&method=18';
    const response=await fetch(tomorrowUrl,{cache:'no-store'});
    if(response.ok){
     const result=await response.json();
-    if(result.code===200&&result.data?.timings)tomorrowTimings=result.data.timings;
+    if(result.code===200&&result.data?.timings){
+     tomorrowTimings=result.data.timings;
+     savePrayerCache(tomorrowKey,result.data,cachedTomorrow?.locationLabel||'',!!prayerCoordinates,prayerCoordinates?.latitude,prayerCoordinates?.longitude);
+    }
    }
-  }catch(error){console.warn('تعذّر جلب مواقيت الغد لجدولة التنبيهات',error);}
+  }catch(error){console.warn('تعذّر جلب مواقيت الغد؛ سنستعمل النسخة المحفوظة إن توفرت',error);}
   times.forEach(x=>{
    const prayerIndex=keys.indexOf(x.key);
    for(let dayOffset=0;dayOffset<daysToSchedule;dayOffset++){
@@ -2674,7 +2742,7 @@ async function scheduleNativePrayerAlerts(){
     if(lead>0){
      const beforeAt=new Date(at.getTime()-lead*60000);
      if(beforeAt>now){
-      alerts.push({id:beforeId,title:'باقي '+lead+' دقائق على صلاة '+prayerNames[x.key],body:'اقترب موعد صلاة '+prayerNames[x.key]+' • سبحان الله والحمد لله ولا إله إلا الله والله أكبر • زاد الخير',schedule:{at:beforeAt,allowWhileIdle:true},channelId:channelId,isExactNotification:true,extra:{prayer:x.key,type:'before'}});
+      alerts.push({id:beforeId,title:'باقي '+lead+' دقائق على صلاة '+prayerNames[x.key],body:'اقترب موعد صلاة '+prayerNames[x.key]+' • '+reminderText+' • زاد الخير',schedule:{at:beforeAt,allowWhileIdle:true},channelId:channelId,isExactNotification:true,extra:{prayer:x.key,type:'before'}});
      }
     }
    }
@@ -2736,8 +2804,10 @@ function checkAdhanSchedule(){if(!prayerTimes)return;const now=cityClockParts(ne
 setInterval(checkAdhanSchedule,12000);
 $('#prayer-location').onclick=()=>{if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>loadPrayerTimes(pos.coords.latitude,pos.coords.longitude),()=>{},{enableHighAccuracy:true,timeout:15000,maximumAge:60000})};
 $('#prayer-refresh').onclick=loadPrayerTimes;document.querySelector('[data-page="prayer-times"]').addEventListener('click',loadPrayerTimes);
-// تحميل مواقيت الصلاة عند فتح التطبيق حتى تظهر بطاقة الرئيسية مباشرة.
-loadPrayerTimes();
+// اعرض مواقيت الموقع المحفوظ فوراً؛ لا نطلب GPS من جديد عند كل تشغيل.
+const savedPrayerLat=Number(localStorage.getItem('zad-prayer-latitude')),savedPrayerLon=Number(localStorage.getItem('zad-prayer-longitude'));
+if(Number.isFinite(savedPrayerLat)&&Number.isFinite(savedPrayerLon)&&localStorage.getItem('zad-prayer-location-mode')==='auto')loadPrayerTimes(savedPrayerLat,savedPrayerLon);
+else loadPrayerTimes();
 
 /* القرآن الكريم: صفحة متصلة لكل سورة وتشغيل التلاوة كاملة بالتتابع */
 const quranSurah=$('#quran-surah'),quranReciter=$('#quran-reciter'),quranStatus=$('#quran-status'),quranVerses=$('#quran-verses'),quranAudio=$('#quran-audio');
@@ -3240,6 +3310,7 @@ function requestPrayerLocation(showMessage=true){
  navigator.geolocation.getCurrentPosition(
   position=>{
    localStorage.setItem('zad-prayer-location-mode','auto');
+   localStorage.setItem('zad-prayer-latitude',String(position.coords.latitude));localStorage.setItem('zad-prayer-longitude',String(position.coords.longitude));
    if(btn){btn.disabled=false;btn.textContent='📍 حدّد موقعي واضبط مواقيت الصلاة تلقائياً';}
    const coords=position.coords;
    say('تم تحديد GPS بدقة أولية '+Math.round(coords.accuracy)+' متر. جاري معرفة المنطقة وضبط الأذان على توقيتها...');
@@ -3247,7 +3318,7 @@ function requestPrayerLocation(showMessage=true){
   },
   error=>{
    if(btn){btn.disabled=false;btn.textContent='📍 حدّد موقعي واضبط مواقيت الصلاة تلقائياً';}
-   localStorage.setItem('zad-prayer-location-mode','manual');
+   localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');
    const message=error.code===1?'إذن الموقع مرفوض. افتح إعدادات Chrome واسمح لزاد الخير باستعمال الموقع.':error.code===2?'الهاتف ما قدرش يحدد موقعك بدقة. شغّل GPS وجرّب في مكان مفتوح.':'GPS تأخّر في تحديد موقعك. شغّل الموقع عالي الدقة وعاود المحاولة.';
    say(message+' نعرض توا مواقيت المدينة المختارة.');
    window.zadLoadPrayerTimes();
@@ -3257,7 +3328,6 @@ function requestPrayerLocation(showMessage=true){
 }
 const zadLocationButton=document.getElementById('zad-use-location');
 if(zadLocationButton)zadLocationButton.onclick=()=>requestPrayerLocation(true);
-requestPrayerLocation(false);
 
 let initial=location.hash.slice(1);if(initial&&document.getElementById(initial))show(initial);paint()})();
 </script>
