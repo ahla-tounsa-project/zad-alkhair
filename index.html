@@ -2460,10 +2460,10 @@ let prayerTimes=null,prayerTicker=null,prayerTimezone='Africa/Tunis',prayerReque
 function fillCountries(){const o=Object.entries(countries).map(([k,v])=>'<option value="'+k+'">'+v[0]+'</option>').join('');countrySel.innerHTML=o;homeCountry.innerHTML=o}
 function fillCities(country,city){const list=countries[country][1],o=list.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('');citySel.innerHTML=o;homeCity.innerHTML=o;const value=list.some(x=>x[0]===city)?city:list[0][0];citySel.value=value;homeCity.value=value}
 fillCountries();let savedCountry=localStorage.getItem('zad-prayer-country')||'Tunisia',savedCity=localStorage.getItem('zad-prayer-city')||'Sfax';if(!countries[savedCountry])savedCountry='Tunisia';countrySel.value=savedCountry;homeCountry.value=savedCountry;fillCities(savedCountry,savedCity);
-countrySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');homeCountry.value=countrySel.value;fillCities(countrySel.value,'');loadPrayerTimes()};
-homeCountry.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');countrySel.value=homeCountry.value;fillCities(homeCountry.value,'');loadPrayerTimes()};
-citySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');homeCity.value=citySel.value;loadPrayerTimes()};
-homeCity.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');citySel.value=homeCity.value;loadPrayerTimes()};
+countrySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');homeCountry.value=countrySel.value;fillCities(countrySel.value,'');loadPrayerTimes()};
+homeCountry.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');countrySel.value=homeCountry.value;fillCities(homeCountry.value,'');loadPrayerTimes()};
+citySel.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');homeCity.value=citySel.value;loadPrayerTimes()};
+homeCity.onchange=()=>{localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');citySel.value=homeCity.value;loadPrayerTimes()};
 window.zadLoadPrayerTimes=(...args)=>loadPrayerTimes(...args);
 async function reversePrayerLocation(latitude,longitude){
  try{
@@ -2474,13 +2474,70 @@ async function reversePrayerLocation(latitude,longitude){
   return parts.join('، ');
  }catch(e){return ''}
 }
+
+function prayerTodayISO(){
+ const p=cityClockParts(new Date());
+ return p.year+'-'+String(p.month).padStart(2,'0')+'-'+String(p.day).padStart(2,'0');
+}
+function prayerCacheKey(day,byLocation,latitude,longitude,city,country){
+ const place=byLocation&&Number.isFinite(latitude)&&Number.isFinite(longitude)
+  ?'gps-'+Number(latitude).toFixed(3)+'-'+Number(longitude).toFixed(3)
+  :'city-'+country+'-'+city;
+ return 'zad-prayer-cache-v1-'+place+'-'+day;
+}
+function readPrayerCache(key){
+ try{const item=JSON.parse(localStorage.getItem(key)||'null');return item&&item.data?.timings?item:null}catch(e){return null}
+}
+function savePrayerCache(key,data,locationLabel,byLocation,latitude,longitude){
+ try{localStorage.setItem(key,JSON.stringify({date:data?.date?.gregorian?.date||'',data,locationLabel,byLocation,latitude,longitude,savedAt:Date.now()}));return true}catch(e){console.warn('تعذّر حفظ مواقيت الصلاة محلياً',e);return false}
+}
+function renderPrayerTimesData(data,options={}){
+ prayerTimes=data.timings;
+ prayerTimezone=data.meta?.timezone||'Africa/Tunis';
+ prayerCoordinates=options.byLocation?{latitude:options.latitude,longitude:options.longitude}:null;
+ if(!options.cached)scheduleNativePrayerAlerts();
+ const locationLabel=options.locationLabel||citySel.options[citySel.selectedIndex].text+'، '+countries[countrySel.value][0];
+ const dateLabel=locationLabel+' • '+(data.date?.readable||'')+' • '+(data.date?.hijri?.date||'')+' هـ'+(options.cached?' • محفوظة لهذا اليوم':'');
+ $('#prayer-date').textContent=dateLabel;$('#home-prayer-date').textContent=dateLabel;
+ const keys=['Fajr','Dhuhr','Asr','Maghrib','Isha'],cleanTime=k=>String(prayerTimes[k]||'—').split(' ')[0];
+ const prayerIcons={Fajr:'🌅',Dhuhr:'☀️',Asr:'🌤️',Maghrib:'🌇',Isha:'🌙'};
+ $('#prayer-list').innerHTML=keys.map(k=>'<div class="prayer-item" data-prayer-key="'+k+'"><span class="prayer-item-name"><span class="prayer-icon" aria-hidden="true">'+prayerIcons[k]+'</span>'+prayerNames[k]+'</span><b>'+cleanTime(k)+'</b></div>').join('');
+ const homeKeys=[['Fajr','الفجر','🌅'],['Sunrise','الشروق','🌄'],['Dhuhr','الظهر','☀️'],['Asr','العصر','🌤️'],['Maghrib','المغرب','🌇'],['Isha','العشاء','🌙']];
+ $('#home-prayer-list').innerHTML=homeKeys.map(([k,label,icon])=>'<div class="home-prayer-time-item" data-prayer-key="'+k+'"><span class="prayer-icon" aria-hidden="true">'+icon+'</span><span class="home-prayer-time-name">'+label+'</span><b class="home-prayer-time-value">'+cleanTime(k)+'</b></div>').join('');
+ tickPrayer();if(prayerTicker)clearInterval(prayerTicker);prayerTicker=setInterval(tickPrayer,1000);
+}
+async function cacheTomorrowPrayerTimes(options){
+ const p=cityClockParts(new Date()),tomorrow=new Date(Date.UTC(p.year,p.month-1,p.day+1));
+ const iso=tomorrow.getUTCFullYear()+'-'+String(tomorrow.getUTCMonth()+1).padStart(2,'0')+'-'+String(tomorrow.getUTCDate()).padStart(2,'0');
+ const apiDate=String(tomorrow.getUTCDate()).padStart(2,'0')+'-'+String(tomorrow.getUTCMonth()+1).padStart(2,'0')+'-'+tomorrow.getUTCFullYear();
+ const url=options.byLocation
+  ?'https://api.aladhan.com/v1/timings/'+apiDate+'?latitude='+encodeURIComponent(options.latitude)+'&longitude='+encodeURIComponent(options.longitude)+'&method=18'
+  :'https://api.aladhan.com/v1/timingsByCity/'+apiDate+'?city='+encodeURIComponent(options.city)+'&country='+encodeURIComponent(options.country)+'&method=18';
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),9000);
+ try{
+  const response=await fetch(url,{cache:'no-store',signal:controller.signal});
+  if(!response.ok)return;
+  const json=await response.json();
+  if(json.code!==200||!json.data?.timings)return;
+  savePrayerCache(prayerCacheKey(iso,options.byLocation,options.latitude,options.longitude,options.city,options.country),json.data,options.locationLabel,options.byLocation,options.latitude,options.longitude);
+ }catch(error){console.warn('تعذّر تجهيز مواقيت الغد للعمل دون إنترنت',error)}
+ finally{clearTimeout(timer)}
+}
+
 async function loadPrayerTimes(latitude=null,longitude=null,accuracy=null){
  const requestId=++prayerRequestId,city=citySel.value,country=countrySel.value;
  let byLocation=Number.isFinite(latitude)&&Number.isFinite(longitude);
  if(!byLocation){localStorage.setItem('zad-prayer-city',city);localStorage.setItem('zad-prayer-country',country);}
- const loading='جاري تحميل مواقيت الصلاة...';
- $('#prayer-date').textContent=loading;$('#home-prayer-date').textContent=loading;
- $('#home-prayer-list').innerHTML='<div style="grid-column:1/-1;text-align:center;color:#fff;padding:8px">جاري جلب المواقيت...</div>';
+ const today=prayerTodayISO(),cacheKey=prayerCacheKey(today,byLocation,latitude,longitude,city,country);
+ const cached=readPrayerCache(cacheKey);
+ const hasCached=cached&&cached.data?.timings;
+ if(hasCached){
+  renderPrayerTimesData(cached.data,{cached:true,byLocation:cached.byLocation,latitude:cached.latitude,longitude:cached.longitude,locationLabel:cached.locationLabel});
+ }else{
+  const loading='جاري تحميل مواقيت الصلاة...';
+  $('#prayer-date').textContent=loading;$('#home-prayer-date').textContent=loading;
+  $('#home-prayer-list').innerHTML='<div style="grid-column:1/-1;text-align:center;color:#fff;padding:8px">جاري جلب المواقيت...</div>';
+ }
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),18000);
  try{
   const cityUrl='https://api.aladhan.com/v1/timingsByCity?city='+encodeURIComponent(city)+'&country='+encodeURIComponent(country)+'&method=18';
@@ -2502,10 +2559,6 @@ async function loadPrayerTimes(latitude=null,longitude=null,accuracy=null){
    if(status)status.textContent='تم تحديد موقعك، لكن خدمة المواقيت حسب الإحداثيات لم تستجب. عرضنا مواقيت '+citySel.options[citySel.selectedIndex].text+' مؤقتاً.';
   }
   if(requestId!==prayerRequestId)return;
-  prayerTimes=json.data.timings;
-  prayerTimezone=json.data.meta?.timezone||'Africa/Tunis';
-  prayerCoordinates=byLocation?{latitude,longitude}:null;
-  scheduleNativePrayerAlerts();
   let locationLabel=citySel.options[citySel.selectedIndex].text+'، '+countries[country][0];
   if(byLocation){
    const place=await reversePrayerLocation(latitude,longitude);
@@ -2513,21 +2566,22 @@ async function loadPrayerTimes(latitude=null,longitude=null,accuracy=null){
    locationLabel=place||('إحداثيات GPS: '+latitude.toFixed(4)+', '+longitude.toFixed(4));
    const accuracyText=Number.isFinite(accuracy)?' • دقّة GPS حوالي '+Math.round(accuracy)+' م':'';
    const status=document.getElementById('zad-location-status');
-   if(status)status.textContent='📍 لقاك GPS في: '+locationLabel+accuracyText+' • مواقيت الصلاة حسب التوقيت المحلي للمنطقة ('+prayerTimezone+').';
+   if(status)status.textContent='📍 لقاك GPS في: '+locationLabel+accuracyText+' • مواقيت الصلاة حسب التوقيت المحلي للمنطقة ('+(json.data.meta?.timezone||'Africa/Tunis')+').';
   }else{
    const status=document.getElementById('zad-location-status');
    if(status&&localStorage.getItem('zad-prayer-location-mode')!=='auto')status.textContent='';
   }
-  const dateLabel=locationLabel+' • '+json.data.date.readable+' • '+json.data.date.hijri.date+' هـ';
-  $('#prayer-date').textContent=dateLabel;$('#home-prayer-date').textContent=dateLabel;
-  const keys=['Fajr','Dhuhr','Asr','Maghrib','Isha'],cleanTime=k=>String(prayerTimes[k]||'—').split(' ')[0];
-  const prayerIcons={Fajr:'🌅',Dhuhr:'☀️',Asr:'🌤️',Maghrib:'🌇',Isha:'🌙'};
-  $('#prayer-list').innerHTML=keys.map(k=>'<div class="prayer-item" data-prayer-key="'+k+'"><span class="prayer-item-name"><span class="prayer-icon" aria-hidden="true">'+prayerIcons[k]+'</span>'+prayerNames[k]+'</span><b>'+cleanTime(k)+'</b></div>').join('');
-  const homeKeys=[['Fajr','الفجر','🌅'],['Sunrise','الشروق','🌄'],['Dhuhr','الظهر','☀️'],['Asr','العصر','🌤️'],['Maghrib','المغرب','🌇'],['Isha','العشاء','🌙']];
-  $('#home-prayer-list').innerHTML=homeKeys.map(([k,label,icon])=>'<div class="home-prayer-time-item" data-prayer-key="'+k+'"><span class="prayer-icon" aria-hidden="true">'+icon+'</span><span class="home-prayer-time-name">'+label+'</span><b class="home-prayer-time-value">'+cleanTime(k)+'</b></div>').join('');
-  tickPrayer();if(prayerTicker)clearInterval(prayerTicker);prayerTicker=setInterval(tickPrayer,1000);
+  renderPrayerTimesData(json.data,{byLocation,latitude,longitude,locationLabel});
+  const actualDay=String(json.data.date?.gregorian?.date||'').split('-').reverse().join('-')||today;
+  savePrayerCache(prayerCacheKey(actualDay,byLocation,latitude,longitude,city,country),json.data,locationLabel,byLocation,latitude,longitude);
+  cacheTomorrowPrayerTimes({byLocation,latitude,longitude,city,country,locationLabel}).catch(()=>{});
  }catch(e){
   if(requestId!==prayerRequestId)return;
+  if(hasCached){
+   const status=document.getElementById('zad-location-status');
+   if(status)status.textContent='تعذّر الاتصال بالإنترنت؛ نعرض مواقيت اليوم المحفوظة على الهاتف.';
+   return;
+  }
   prayerTimes=null;
   const msg=e.name==='AbortError'?'تأخّر الاتصال بخدمة المواقيت. أعد المحاولة بعد قليل.':'تعذّر تحميل المواقيت. تثبّت من الإنترنت واضغط «إعادة المحاولة».';
   $('#prayer-date').textContent=msg;$('#home-prayer-date').textContent=msg;
@@ -2736,8 +2790,10 @@ function checkAdhanSchedule(){if(!prayerTimes)return;const now=cityClockParts(ne
 setInterval(checkAdhanSchedule,12000);
 $('#prayer-location').onclick=()=>{if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>loadPrayerTimes(pos.coords.latitude,pos.coords.longitude),()=>{},{enableHighAccuracy:true,timeout:15000,maximumAge:60000})};
 $('#prayer-refresh').onclick=loadPrayerTimes;document.querySelector('[data-page="prayer-times"]').addEventListener('click',loadPrayerTimes);
-// تحميل مواقيت الصلاة عند فتح التطبيق حتى تظهر بطاقة الرئيسية مباشرة.
-loadPrayerTimes();
+// اعرض مواقيت الموقع المحفوظ فوراً؛ لا نطلب GPS من جديد عند كل تشغيل.
+const savedPrayerLat=Number(localStorage.getItem('zad-prayer-latitude')),savedPrayerLon=Number(localStorage.getItem('zad-prayer-longitude'));
+if(Number.isFinite(savedPrayerLat)&&Number.isFinite(savedPrayerLon)&&localStorage.getItem('zad-prayer-location-mode')==='auto')loadPrayerTimes(savedPrayerLat,savedPrayerLon);
+else loadPrayerTimes();
 
 /* القرآن الكريم: صفحة متصلة لكل سورة وتشغيل التلاوة كاملة بالتتابع */
 const quranSurah=$('#quran-surah'),quranReciter=$('#quran-reciter'),quranStatus=$('#quran-status'),quranVerses=$('#quran-verses'),quranAudio=$('#quran-audio');
@@ -3240,6 +3296,7 @@ function requestPrayerLocation(showMessage=true){
  navigator.geolocation.getCurrentPosition(
   position=>{
    localStorage.setItem('zad-prayer-location-mode','auto');
+   localStorage.setItem('zad-prayer-latitude',String(position.coords.latitude));localStorage.setItem('zad-prayer-longitude',String(position.coords.longitude));
    if(btn){btn.disabled=false;btn.textContent='📍 حدّد موقعي واضبط مواقيت الصلاة تلقائياً';}
    const coords=position.coords;
    say('تم تحديد GPS بدقة أولية '+Math.round(coords.accuracy)+' متر. جاري معرفة المنطقة وضبط الأذان على توقيتها...');
@@ -3247,7 +3304,7 @@ function requestPrayerLocation(showMessage=true){
   },
   error=>{
    if(btn){btn.disabled=false;btn.textContent='📍 حدّد موقعي واضبط مواقيت الصلاة تلقائياً';}
-   localStorage.setItem('zad-prayer-location-mode','manual');
+   localStorage.setItem('zad-prayer-location-mode','manual');localStorage.removeItem('zad-prayer-latitude');localStorage.removeItem('zad-prayer-longitude');
    const message=error.code===1?'إذن الموقع مرفوض. افتح إعدادات Chrome واسمح لزاد الخير باستعمال الموقع.':error.code===2?'الهاتف ما قدرش يحدد موقعك بدقة. شغّل GPS وجرّب في مكان مفتوح.':'GPS تأخّر في تحديد موقعك. شغّل الموقع عالي الدقة وعاود المحاولة.';
    say(message+' نعرض توا مواقيت المدينة المختارة.');
    window.zadLoadPrayerTimes();
@@ -3257,7 +3314,6 @@ function requestPrayerLocation(showMessage=true){
 }
 const zadLocationButton=document.getElementById('zad-use-location');
 if(zadLocationButton)zadLocationButton.onclick=()=>requestPrayerLocation(true);
-requestPrayerLocation(false);
 
 let initial=location.hash.slice(1);if(initial&&document.getElementById(initial))show(initial);paint()})();
 </script>
