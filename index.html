@@ -2495,7 +2495,7 @@ function renderPrayerTimesData(data,options={}){
  prayerTimes=data.timings;
  prayerTimezone=data.meta?.timezone||'Africa/Tunis';
  prayerCoordinates=options.byLocation?{latitude:options.latitude,longitude:options.longitude}:null;
- if(!options.cached)scheduleNativePrayerAlerts();
+ scheduleNativePrayerAlerts();
  const locationLabel=options.locationLabel||citySel.options[citySel.selectedIndex].text+'، '+countries[countrySel.value][0];
  const dateLabel=locationLabel+' • '+(data.date?.readable||'')+' • '+(data.date?.hijri?.date||'')+' هـ'+(options.cached?' • محفوظة لهذا اليوم':'');
  $('#prayer-date').textContent=dateLabel;$('#home-prayer-date').textContent=dateLabel;
@@ -2706,19 +2706,25 @@ async function scheduleNativePrayerAlerts(){
   const now=new Date(),nowParts=cityClockParts(now),alerts=[],lead=Number(adhanBefore.value);
   const reminderTexts={tasbeeh:'سبحان الله والحمد لله ولا إله إلا الله والله أكبر',salawat:'اللهم صل وسلم على نبينا محمد',istighfar:'أستغفر الله وأتوب إليه',tahlil:'لا إله إلا الله',dua:'اللهم أعنّي على ذكرك وشكرك وحسن عبادتك'};
   const reminderText=adhanReminder.value==='custom'?(adhanCustomReminder.value.trim()||reminderTexts.tasbeeh):(reminderTexts[adhanReminder.value]||reminderTexts.tasbeeh);
-  let tomorrowTimings=null;
+  const nextDay=new Date(Date.UTC(nowParts.year,nowParts.month-1,nowParts.day+1));
+  const datePath=String(nextDay.getUTCDate()).padStart(2,'0')+'-'+String(nextDay.getUTCMonth()+1).padStart(2,'0')+'-'+nextDay.getUTCFullYear();
+  const tomorrowISO=nextDay.getUTCFullYear()+'-'+String(nextDay.getUTCMonth()+1).padStart(2,'0')+'-'+String(nextDay.getUTCDate()).padStart(2,'0');
+  const tomorrowKey=prayerCacheKey(tomorrowISO,!!prayerCoordinates,prayerCoordinates?.latitude,prayerCoordinates?.longitude,citySel.value,countrySel.value);
+  const cachedTomorrow=readPrayerCache(tomorrowKey);
+  let tomorrowTimings=cachedTomorrow?.data?.timings||null;
   try{
-   const nextDay=new Date(Date.UTC(nowParts.year,nowParts.month-1,nowParts.day+1));
-   const datePath=String(nextDay.getUTCDate()).padStart(2,'0')+'-'+String(nextDay.getUTCMonth()+1).padStart(2,'0')+'-'+nextDay.getUTCFullYear();
    const tomorrowUrl=prayerCoordinates
     ?'https://api.aladhan.com/v1/timings/'+datePath+'?latitude='+encodeURIComponent(prayerCoordinates.latitude)+'&longitude='+encodeURIComponent(prayerCoordinates.longitude)+'&method=18&timezonestring='+encodeURIComponent(prayerTimezone)
     :'https://api.aladhan.com/v1/timingsByCity/'+datePath+'?city='+encodeURIComponent(citySel.value)+'&country='+encodeURIComponent(countrySel.value)+'&method=18';
    const response=await fetch(tomorrowUrl,{cache:'no-store'});
    if(response.ok){
     const result=await response.json();
-    if(result.code===200&&result.data?.timings)tomorrowTimings=result.data.timings;
+    if(result.code===200&&result.data?.timings){
+     tomorrowTimings=result.data.timings;
+     savePrayerCache(tomorrowKey,result.data,cachedTomorrow?.locationLabel||'',!!prayerCoordinates,prayerCoordinates?.latitude,prayerCoordinates?.longitude);
+    }
    }
-  }catch(error){console.warn('تعذّر جلب مواقيت الغد لجدولة التنبيهات',error);}
+  }catch(error){console.warn('تعذّر جلب مواقيت الغد؛ سنستعمل النسخة المحفوظة إن توفرت',error);}
   times.forEach(x=>{
    const prayerIndex=keys.indexOf(x.key);
    for(let dayOffset=0;dayOffset<daysToSchedule;dayOffset++){
