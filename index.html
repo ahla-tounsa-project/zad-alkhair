@@ -2327,6 +2327,15 @@ function createDailyDhikrProgress(id,storage,now=()=>new Date()){
  return {ensureCurrentDay,get,set,reset,getStorageKey:()=>key,getAll:()=>({...counts})};
 }
 function getDhikrTitle(el){return el.querySelector(':scope > p.muted')?.textContent?.trim()||'';}
+function normalizeDhikrSequence(items,required,progress,itemKey){
+ const countAt=i=>progress.get(itemKey(items[i]));
+ const firstIncomplete=items.findIndex((_,i)=>countAt(i)<required[i]);
+ if(firstIncomplete<0)return -1;
+ for(let i=firstIncomplete+1;i<items.length;i++){
+  if(countAt(i)>0)progress.set(itemKey(items[i]),0,required[i]);
+ }
+ return firstIncomplete;
+}
 function setupDhikr(id){
  const root=document.getElementById(id),items=[...root.querySelectorAll('.dhikr-tap')];
  const progress=createDailyDhikrProgress(id,localStorage);
@@ -2375,13 +2384,7 @@ function setupDhikr(id){
  totalEl.textContent=items.length;const totalLabel=root.querySelector('.dhikr-tools > span');if(totalLabel)totalLabel.setAttribute('aria-label','عدد الأذكار '+items.length+'، المكتمل '+doneEl.textContent);
  function countAt(i){return progress.get(itemKey(items[i]))}
  function activeIndex(){return items.findIndex((el,i)=>countAt(i)<required[i])}
- function normalizeProgressSequence(){
-  const firstIncomplete=activeIndex();
-  if(firstIncomplete<0)return;
-  for(let i=firstIncomplete+1;i<items.length;i++){
-   if(countAt(i)>0)progress.set(itemKey(items[i]),0,required[i]);
-  }
- }
+ function normalizeProgressSequence(){normalizeDhikrSequence(items,required,progress,itemKey)}
  function render(){
   ensureCurrentDay();
   normalizeProgressSequence();
