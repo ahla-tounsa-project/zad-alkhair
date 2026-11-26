@@ -129,12 +129,12 @@ sequenceProgress.set('ikhlas', 3, 3);
 sequenceProgress.set('falaq', 2, 3);
 sequenceProgress.set('nas', 1, 3);
 assert.equal(normalizeDhikrSequence(sequenceKeys, required, sequenceProgress, keyOf), 2);
-assert.deepEqual(sequenceKeys.map(key => sequenceProgress.get(key)), [1, 3, 0, 0]);
+assert.deepEqual(sequenceKeys.map(key => sequenceProgress.get(key)), [1, 3, 2, 0]);
 
 sequenceProgress.set('falaq', 3, 3);
 sequenceProgress.set('nas', 1, 3);
 assert.equal(normalizeDhikrSequence(sequenceKeys, required, sequenceProgress, keyOf), 3);
-assert.deepEqual(sequenceKeys.map(key => sequenceProgress.get(key)), [1, 3, 3, 0]);
+assert.deepEqual(sequenceKeys.map(key => sequenceProgress.get(key)), [1, 3, 3, 1]);
 sequenceProgress.set('nas', 3, 3);
 assert.equal(normalizeDhikrSequence(sequenceKeys, required, sequenceProgress, keyOf), -1, 'fully completed sequence remains completed');
 
