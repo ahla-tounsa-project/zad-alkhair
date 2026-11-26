@@ -25,6 +25,8 @@ jobs:
           node-version: 22
       - name: Install web dependencies
         run: npm install --no-audit --no-fund
+      - name: Test adhkar progress and sequence recovery
+        run: npm run test:adhkar
       - name: Build web app with bundled notification bridge
         run: npm run build:web
       - name: Configure Pages
